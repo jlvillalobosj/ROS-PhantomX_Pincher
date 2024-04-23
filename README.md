@@ -8,8 +8,7 @@
 El presente repositorio tiene por objetivo dar a conocer el funcionamiento del brazo robótico Phantom X Pincher basado en en movimientos otrogados por los motores Dynamixel los cuales son programados a partir de los paquetes de ROS.
 
 <p align="center">
-  <img src="/Imágenes/Robot_VT6L.PNG" style="width: 45%; height: auto;" /  />
- <img src="/Imágenes/Robot_VT6L_Sim.PNG" style="width: 30%; height: auto;" / />
+  <img src="/Imagenes/PhantomXGeneral.PNG" style="width: 45%; height: auto;" /  />
 </p>
 
 ## Solucion planteada
