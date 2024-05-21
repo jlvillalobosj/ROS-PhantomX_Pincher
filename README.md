@@ -22,6 +22,8 @@ Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada 
 
 ## Diagrama de flujo
 
+## Interfaz gráfica
+
 ## Funciones de ROS
 
 ## DYNAMIXEL
