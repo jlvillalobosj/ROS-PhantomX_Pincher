@@ -23,7 +23,13 @@ Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada 
 ## Diagrama de flujo
 
 ## Interfaz gráfica
+El diseño de la interface se dividio en dos partes, la primera se basa en una pequeña introducción a la aplicación en donde aparecen los nombres de los integrantes y un pequeño parrafo con la descripción de la aplicación. Al seleccionar el boton de "inicio", se evalua si el roslaunch esta en funcionamiento, con lo cual procede a cerrar la ventana actual y abrir la ventana principal donde se encuentran las diferentes acciones ue se pueden realizar para mover el robot.
 
+<p align="center">
+  <img src="/Imagenes/PhantomXGeneral.PNG" style="width: 45%; height: auto;" /  />
+</p>
+
+Por otro lado en la ventana principal encontramos...
 ## Funciones de ROS
 
 ## DYNAMIXEL
