@@ -20,6 +20,11 @@ Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada 
   <img src="/Imagenes/MatrizDH.PNG" style="width: 45%; height: auto;" /  />
 </p>
 
+```matlab
+% Tu código aquí
+disp('Hola, mundo!');
+```
+
 ## Simulación de MATLAB
 Se diseño una interfaz de base en matlab para ejecutar la simulación de las diferentes posiciones que podia tomar el sistema con ayuda del Peter Corke mostrando la posicioón y al orientación del efector final y el uso de barras de sliders para tener una mayor presicion en cuanto a la posiciónes que podia tomar el brazo robótico.
 <p align="center">
