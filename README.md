@@ -33,7 +33,7 @@ Para el diseño del código principal, se inició estableciendo las característ
                             'ortho', 'lightpos',[2 2 10], ...
                             'floorlevel',0, 'base'};
 ```
-A continuación se hace el diseño de cada uno de los parámetros de la matriz de Denavit-Hartenberg (DH) en donde se indican el ripo de articulación que son, sus respectivas propiedades de angulos y longitudes y los límites de desplazamiento que tienen.
+A continuación se hace el diseño de cada uno de los parámetros de la matriz de Denavit-Hartenberg (DH) en donde se indican el tipo de articulación que son, sus respectivas propiedades de angulos y longitudes y los límites de desplazamiento que tienen para finalmente usar la funcion de SerialLink de PeterCorke para modelar, simular y analizar la cadena cinemática de nuestro robot y finalmente obtener su visualización.
 ```matlab
             
             %            Theta  d   a   alpha  type mdh offset  qlim
@@ -54,11 +54,44 @@ A continuación se hace el diseño de cada uno de los parámetros de la matriz d
             
             RobotPhantomx = SerialLink(ParameterDH,'name','PhantomX','plotopt',plot_options);
 ```
+Seguidamente se diseño la gráfica del robot resultante por medio de la función .plot(), en donde se especificaban los angulos por medio del vector q y el espacio de trabajo. Ya que se espera que la gráfica se actualice con respecto a las interacciones del usuario es necesario eliminar la grafica anterior por lo que el codigo inicia con la funcion clf.
+```matlab 
+             clf;
+             cla(app.UIAxes);
+             ax = axes();
+             RobotPhantomx.plot(q,'workspace',ws); 
+             xlim([limitesEjes(1,:)])
+             ylim([limitesEjes(2,:)])
+             zlim([limitesEjes(3,:)])
+             copyobj(ax.Children, app.UIAxes);
+             grid(app.UIAxes, 'on');
+             xlim(app.UIAxes, [limitesEjes(1,:)]); 
+             ylim(app.UIAxes, [limitesEjes(2,:)]); 
+             zlim(app.UIAxes, [limitesEjes(3,:)]);
+```
+Finalmente se calculó la matriz de transformación homogenea del TCP por medio de la funcion fkine() de peter corke con el fin de obtener la posición y la orientación en la que se encontraba el efector final y mostrarselos al usuario por medio de una etiqueta variable.
+```matlab               
+            TCP = RobotPhantomx.fkine(q)
+            rotacion = tr2rpy(TCP,'zyx','deg')
+            poscicion = TCP.T
+            Posicion=poscicion(1:3, 4);               
+            app.Roll.Value = round(rotacion(1), 2);             
+            app.Pitch.Value = round(rotacion(2), 2);             
+            app.Yaw.Value = round(rotacion(3), 2);   
+
+            app.AlturaEditField.Value = round(Posicion(1), 2);             
+            app.VerticalEditField.Value = round(Posicion(2), 2);             
+            app.HorizontalEditField.Value = round(Posicion(3), 2);
+```
+
+
 En el siguiente [enlace](Matlab/Laboratorio4_PhantomX/appMovementPhantomX.mlapp) encuentra la aplicación para el funcionamiento de la interfaz del brazo robótico en matlab, por otro lado el código base de la aplicación donde se hace uso del .teach para la comparación de resultados lo puede encontrar en el siguiente [enlace](Matlab/Laboratorio4_PhantomX/CinematicaDirecta.m)
+
+
 ## Simulación de MATLAB
 Se creó una interfaz en MATLAB para simular diversas posiciones del sistema utilizando la Toolbox de Robótica de Peter Corke. La interfaz permite visualizar tanto la posición como la orientación del efector final del brazo robótico. Además, se incorporaron barras de deslizamiento (sliders) para brindar mayor precisión en la selección de las posiciones deseadas del brazo robótico.
 <p align="center">
-  <img src="/Imagenes/InterfaceMatlab.PNG" style="width: 45%; height: auto;" /  />
+  <img src="/Imagenes/InterfaceMatlab.PNG" style="width: 80%; height: auto;" /  />
 </p>
 
 ## Diagrama de flujo
