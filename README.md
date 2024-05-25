@@ -20,10 +20,10 @@ Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada 
   <img src="/Imagenes/MatrizDH.PNG" style="width: 45%; height: auto;" /  />
 </p>
 
-Para el diseño del código principal, se inició
+Para el diseño del código principal, se inició estableciendo las características que influyen en los movimientos del brazo robótico, tales como su espacio de trabajo con el fin de conocer los alcances que este tiene, por medio del vector L se indican las longitudes de cada eslabon en centímetros, por medio del vector q se representan los  ángulos que toma cada articulación en base a las variables de entrada dadas por el usuario al interactuar con la interfaz (botones, sliders, spinners), finalmente el plot_optiosn{} nos permite armar la base donde se verá la simulación del brazo robótico.
 ```matlab
-% Tu código aquí
-ws = [-24 24 -24 24 -4.5 40];
+
+            ws = [-24 24 -24 24 -4.5 40];
             L = [4.5, 10, 10, 1, 10]; 
             offset = [0, -pi/2, 0, -pi/2, 0];
             q = [app.valueServo1, app.valueServo2, app.valueServo3, app.valueServo4, app.valueServo5]*pi/180;
@@ -32,6 +32,9 @@ ws = [-24 24 -24 24 -4.5 40];
             plot_options = {'workspace',ws,'scale',.5,'noa','view',[125 25], 'tilesize',2, ...
                             'ortho', 'lightpos',[2 2 10], ...
                             'floorlevel',0, 'base'};
+```
+A continuación se hace el diseño de cada uno de los parámetros de la matriz de Denavit-Hartenberg (DH) en donde se indican el ripo de articulación que son, sus respectivas propiedades de angulos y longitudes y los límites de desplazamiento que tienen.
+```matlab
             
             %            Theta  d   a   alpha  type mdh offset  qlim
             ParameterDH(1) = Link('revolute'   ,'alpha',      -pi/2,  'a',  0,      'd', ...
@@ -51,7 +54,7 @@ ws = [-24 24 -24 24 -4.5 40];
             
             RobotPhantomx = SerialLink(ParameterDH,'name','PhantomX','plotopt',plot_options);
 ```
-En el siguiente [enlace](Matlab/Laboratorio4_PhantomX/appMovementPhantomX.mlapp) encuentra la aplicación para el funcionamiento de la interfaz del brazo robótico en matlab
+En el siguiente [enlace](Matlab/Laboratorio4_PhantomX/appMovementPhantomX.mlapp) encuentra la aplicación para el funcionamiento de la interfaz del brazo robótico en matlab, por otro lado el código base de la aplicación donde se hace uso del .teach para la comparación de resultados lo puede encontrar en el siguiente [enlace](Matlab/Laboratorio4_PhantomX/appMovementPhantomX.mlapp)
 ## Simulación de MATLAB
 Se creó una interfaz en MATLAB para simular diversas posiciones del sistema utilizando la Toolbox de Robótica de Peter Corke. La interfaz permite visualizar tanto la posición como la orientación del efector final del brazo robótico. Además, se incorporaron barras de deslizamiento (sliders) para brindar mayor precisión en la selección de las posiciones deseadas del brazo robótico.
 <p align="center">
