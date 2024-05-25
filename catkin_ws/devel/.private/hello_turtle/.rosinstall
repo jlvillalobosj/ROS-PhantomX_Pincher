@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/julianv/catkin_ws/devel/.private/hello_turtle/setup.sh

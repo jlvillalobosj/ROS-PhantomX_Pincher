@@ -1,0 +1,1 @@
+/home/julianv/catkin_ws/devel/.private/hello_turtle/share/hello_turtle/cmake/hello_turtleConfig.cmake
