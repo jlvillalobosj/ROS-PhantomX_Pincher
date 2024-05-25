@@ -13,16 +13,43 @@ El presente repositorio tiene por objetivo dar a conocer el funcionamiento del b
 
 ## Solucion planteada
 
-## Funciones de MATLAB
+## [Funciones de MATLAB](/Lab2/Main.prg)
 Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada articulación de un robot afecta su posición y orientación. Al definir la configuración DH para cada articulación, establecemos parámetros como el ángulo de rotación y la longitud del enlace. Multiplicando las matrices DH a lo largo del robot, obtenemos la matriz de transformación homogénea, que nos da la posición y orientación del extremo del robot. 
 <p align="center">
   <img src="/Imagenes/DiagramaphantomX.PNG" style="width: 45%; height: auto;" /  />
   <img src="/Imagenes/MatrizDH.PNG" style="width: 45%; height: auto;" /  />
 </p>
 
+Para el diseño del código principal, se inició
 ```matlab
 % Tu código aquí
-disp('Hola, mundo!');
+ws = [-24 24 -24 24 -4.5 40];
+            L = [4.5, 10, 10, 1, 10]; 
+            offset = [0, -pi/2, 0, -pi/2, 0];
+            q = [app.valueServo1, app.valueServo2, app.valueServo3, app.valueServo4, app.valueServo5]*pi/180;
+            limitesEjes = [-25 25; -25 25; -5 45];
+
+            plot_options = {'workspace',ws,'scale',.5,'noa','view',[125 25], 'tilesize',2, ...
+                            'ortho', 'lightpos',[2 2 10], ...
+                            'floorlevel',0, 'base'};
+            
+            %            Theta  d   a   alpha  type mdh offset  qlim
+            ParameterDH(1) = Link('revolute'   ,'alpha',      -pi/2,  'a',  0,      'd', ...
+                        L(1) , 'offset',    offset(1), 'qlim', [-0 2*pi]);
+            
+            ParameterDH(2) = Link('revolute'   ,'alpha',      0,  'a',  L(2),      'd', ...
+                        0 , 'offset',    offset(2), 'qlim', [-pi/3 pi/3]);
+            
+            ParameterDH(3) = Link('revolute'   ,'alpha',      0,  'a',  L(3),      'd', ...
+                        0 , 'offset',    offset(3), 'qlim', [-pi/2 pi/2]);
+            
+            ParameterDH(4) = Link('revolute'   ,'alpha',      -pi/2,  'a',  0,      'd', ...
+                        0 , 'offset',    offset(4), 'qlim', [-2*pi/3 2*pi/3]);
+            
+            ParameterDH(5) = Link('revolute'   ,'alpha',      0,  'a',  0,      'd', ...
+                        L(4)+L(5) , 'offset',    offset(5), 'qlim', [-2*pi/3 2*pi/3]);
+            
+            RobotPhantomx = SerialLink(ParameterDH,'name','PhantomX','plotopt',plot_options);
 ```
 
 ## Simulación de MATLAB
