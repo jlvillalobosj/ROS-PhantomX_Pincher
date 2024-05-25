@@ -51,9 +51,9 @@ ws = [-24 24 -24 24 -4.5 40];
             
             RobotPhantomx = SerialLink(ParameterDH,'name','PhantomX','plotopt',plot_options);
 ```
-
+En el siguiente [enlace](Matlab/Laboratorio4_PhantomX/appMovementPhantomX.mlapp) encuentra la aplicación para el funcionamiento de la interfaz del brazo robótico en matlab
 ## Simulación de MATLAB
-Se diseño una interfaz de base en matlab para ejecutar la simulación de las diferentes posiciones que podia tomar el sistema con ayuda del Peter Corke mostrando la posicioón y al orientación del efector final y el uso de barras de sliders para tener una mayor presicion en cuanto a la posiciónes que podia tomar el brazo robótico.
+Se creó una interfaz en MATLAB para simular diversas posiciones del sistema utilizando la Toolbox de Robótica de Peter Corke. La interfaz permite visualizar tanto la posición como la orientación del efector final del brazo robótico. Además, se incorporaron barras de deslizamiento (sliders) para brindar mayor precisión en la selección de las posiciones deseadas del brazo robótico.
 <p align="center">
   <img src="/Imagenes/InterfaceMatlab.PNG" style="width: 45%; height: auto;" /  />
 </p>
