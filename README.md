@@ -212,7 +212,7 @@ def mth_tcp(theta, d, a, alpha, offset):
     return tcp    
 ```
 
-Finalmente para obtener la posición y orientación en cada uno de los puntos en los que se ubique el robot, se hace uso de la función *matriz_parametros_pincher(self, theta)* la cual ingresa los ángulos respectivos de caad articulación y esta corre las funciones anteriormente descritas retornando la MTH SE3
+Finalmente para obtener la posición y orientación en cada uno de los puntos en los que se ubique el robot, se hace uso de la función *matriz_parametros_pincher(self, theta)* la cual ingresa los ángulos respectivos de caad articulación y esta corre las funciones anteriormente descritas retornando la MTH SE3.
 ```python             
     def matriz_parametros_pincher(self, theta):
         d = [4.5, 0, 0, 0, 11]
@@ -222,6 +222,7 @@ Finalmente para obtener la posición y orientación en cada uno de los puntos en
         return jointMovement.mth_tcp(theta, d, a, alpha, offset)  
 ```
 
+Para los datos de la posición fué necesario tomar únicamente los valores de la cuarta columna de la matriz MTH, mientras que para la orientación se hizo el proceso inverso de la matriz para obtener los ángulos fijos en base a su sistema de orientación SO3 con lo cual se calcularon con operaciones trigonométricas.
 ```python             
     def posicion_efector_final(self, theta):
         posicion = [fila[3] for fila in self.matriz_parametros_pincher(theta)[:3]]
@@ -245,6 +246,10 @@ Finalmente para obtener la posición y orientación en cada uno de los puntos en
 
         return [roll, pitch, yaw] 
 ```
+
+<p align="center">
+  <img src="/Imagenes/MatrizInversa.PNG" style="width: 70%; height: auto;" /  />
+</p>
 
 
 ## Videos de pruebas de funcionamiento
