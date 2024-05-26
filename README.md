@@ -200,7 +200,7 @@ def matriz_DH(theta, d, a, alpha):
 
     return [M1,M2,M3, [0, 0, 0, 1]]
 ```
-
+Con ayuda de cada una de las matrices para los eslabones se calculó la MTH completa de la base al TCP realizando un producto punto entre cada uno de los resultados obtenidos 
 
 ```python             
 # Matriz de transformación homogenea del TCP
@@ -212,11 +212,39 @@ def mth_tcp(theta, d, a, alpha, offset):
     return tcp    
 ```
 
+Finalmente para obtener la posición y orientación en cada uno de los puntos en los que se ubique el robot, se hace uso de la función *matriz_parametros_pincher(self, theta)* la cual ingresa los ángulos respectivos de caad articulación y esta corre las funciones anteriormente descritas retornando la MTH SE3
+```python             
+    def matriz_parametros_pincher(self, theta):
+        d = [4.5, 0, 0, 0, 11]
+        a = [0, 10, 10, 0, 0]
+        offset = [0, -90, 0, -90, 0]
+        alpha = [-90, 0, 0, -90, 0]
+        return jointMovement.mth_tcp(theta, d, a, alpha, offset)  
+```
 
+```python             
+    def posicion_efector_final(self, theta):
+        posicion = [fila[3] for fila in self.matriz_parametros_pincher(theta)[:3]]
+        for i in range(len(posicion)):
+            posicion[i] = round(posicion[i],2)
+        return posicion 
+```
 
+```python             
+    def rotacion_efector_final(self, theta):
+        rotacion = self.matriz_parametros_pincher(theta)
 
+        yaw = math.atan2(rotacion[2][1], rotacion[2][2])
+        yaw = round(math.degrees(yaw),1)
 
+        pitch = math.atan2(rotacion[2][0],math.sqrt((rotacion[2][1])**2 + (rotacion[2][2])**2) )
+        pitch = round(math.degrees(pitch),1)
 
+        roll = math.atan2(-rotacion[0][1], rotacion[0][0])
+        roll = round(math.degrees(roll),1)
+
+        return [roll, pitch, yaw] 
+```
 
 
 ## Videos de pruebas de funcionamiento
