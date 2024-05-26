@@ -104,7 +104,26 @@ El diseño de la interface se dividio en dos partes, la primera se basa en una p
 </p>
 
 Por otro lado en la ventana principal encontramos...
+<p align="center">
+  <img src="/Imagenes/InterfacePython.PNG" style="width: 45%; height: auto;" /  />
+</p>
 ## Funciones de ROS
+Una vez se hayan terminado los diferentes cambios para el funcionamiento de la aplicaci[on se inserta el comando *catkin build dynamixel_one_motor* con el fin de reconstruir y compilar el proyecto para revisar el correcto funcionamiento de los cambios realizados. Seguidamente se  *source devel/setup.bash* dentro de la carpeta del workspace con el fin de permitir a ROS reconocer y utilizar correctamente los paquetes y recursos del workspace para finalmente correr el comando *roslaunch dynamixel_one_motor one_controller.launch* el cual nos permite poner en marcha los nodos del proyecto de dynamixel motor y sar los servicios de este.
+
+Mientras la aplicación se encuentra en ejecución, al seleccionar el botón de inicio el sistema busca el nodo master de la aplicación para dan permiso a los comandos para los tópicos, lo servicios y las acciones e inmediatemente destruye la ventana actual para dar paso al script de la interface de los movimientos del robot. En caso de no tener corriendo el proyecto de roslaunch la aplicación envia un mensaje de error por medio de una ventana modal.
+
+```python             
+    def boton_push_start(self):
+          # Intenta inicializar rospy y muestra un mensaje indicando el estado de la conexión
+          try:
+              rospy.init_node('PhantomX_Movement')
+              self.screen.destroy()
+              interface.main()
+          except Exception:
+              messagebox.showerror("Error de conexión", "No se pudo establecer la conexión con el Phantom X")
+              pass
+```
+
 
 ## DYNAMIXEL
 
