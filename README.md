@@ -103,11 +103,21 @@ El diseño de la interface se dividio en dos partes, la primera se basa en una p
   <img src="/Imagenes/HomeApp.PNG" style="width: 45%; height: auto;" /  />
 </p>
 
-Por otro lado en la ventana principal encontramos...
+Por otro lado en la ventana principal encontramos inicialmente los botones principales que se encargan de colocar al robot en posiciones específicas en base a los ángulos de rotación de cada servomotor tales como:
+-  [0, 0, 0, 0, 0] - Para la posición del Home
+- [25, 25, 20, -20, 0] - Para la posición del objeto
+- [-35,35, -30, 30, 0] - Para la posición 1
+- [85, -20, 55, 25, 0] - Para la posición 2
+- [80, -35, 55, -45, 0] - Para la posición 3
+
+Al igual que en la simulación de matlab, los slider y las entras de texto junto con los botones estan conectados recíprocamente ya que al ejecutar una acción en cualquiera de estos, se mostrara el cambio en los demas, del mismo modo se implementaron 5 sliders para tener control sobre cada uno de los servomotores y tener un mayor control sobre el robot. Finalmente se implementaron unas ediciones de texto las cuales se encargan de mostrar la posición y orientación en la que se encuentra el efector final den base a su punto de apoyo estas calculadas por medio de la matriz DH y la matriz de transformación homogenea del TCP
 <p align="center">
   <img src="/Imagenes/InterfacePython.PNG" style="width: 45%; height: auto;" /  />
 </p>
+Es importante aclarar que en caso de tener una entrada de texto que se encuentre fuera del limite de rotación en los servomotores se mostrara un mensaje de error indicando que esos valores no se encuentran dentro de los parámetros.
+
 ## Funciones de ROS
+
 Una vez se hayan terminado los diferentes cambios para el funcionamiento de la aplicaci[on se inserta el comando *catkin build dynamixel_one_motor* con el fin de reconstruir y compilar el proyecto para revisar el correcto funcionamiento de los cambios realizados. Seguidamente se  *source devel/setup.bash* dentro de la carpeta del workspace con el fin de permitir a ROS reconocer y utilizar correctamente los paquetes y recursos del workspace para finalmente correr el comando *roslaunch dynamixel_one_motor one_controller.launch* el cual nos permite poner en marcha los nodos del proyecto de dynamixel motor y sar los servicios de este.
 
 Mientras la aplicación se encuentra en ejecución, al seleccionar el botón de inicio el sistema busca el nodo master de la aplicación para dan permiso a los comandos para los tópicos, lo servicios y las acciones e inmediatemente destruye la ventana actual para dar paso al script de la interface de los movimientos del robot. En caso de no tener corriendo el proyecto de roslaunch la aplicación envia un mensaje de error por medio de una ventana modal.
@@ -123,23 +133,60 @@ Mientras la aplicación se encuentra en ejecución, al seleccionar el botón de 
               messagebox.showerror("Error de conexión", "No se pudo establecer la conexión con el Phantom X")
               pass
 ```
+Al ejecutar alguna acción sobre el robot, ya sea por medio de los botones, los sliders o las entradas de texto, esta hara un llamado al servicio de ros (la aplicación esta configurada para que cuando se inicie la pantalla principal, la primera acion que se ejecute es colocar al robot en la posición HOME)
+```python             
+        #Ejecutar en la posición home solo al inicio
+        for joint in range(len(self.home_Position)):
+            jointMovement.jointMovement(joint+1,self.home_Position[joint])
+```
+La función jointMovement(id,value) es la primera función que se ejecuta cuando se solicita cualquier movimiento del robot, esta se encarga de ajustar los parámetros de entrada para los comandos del servicio, inicialmente en el servomotor 1 al presentar una orioentación invertida con respecto a los demas servomotores se implemento una negación a los valores de entrada, por otro lado para el servomotor 3 al presentar una inclinación de 90° en la estructura fué necesario restarle estos 90° a los diferentes valores que llegaran para este ID con el fin de tener los resultados acorde a los cálculos, y finalmente antes de hacer un llamado a la función delñ jointCommand se ejecuta la función grados_a_bits() el cual se encarga de convertir los datos entrados por el usuario a valores que puede entender el servomotor.
+
+```python             
+# Envia la informacion a los motores para el servidor
+def jointMovement( id_num, value):  
+    if id_num == 1:
+        value *=-1
+    if id_num == 3:
+        value -= 90
+    jointCommand('', id_num, 'Goal_Position', grados_a_bits(value), 0.1) 
+```
+Ya que la interpretación del servomotor es een un rango de bits de 0 1 4096, se buscaba que el usuario pudiera ingresar valores de -180 a +180 haciendo que el 0° sea la parte frontal del servomotor, por lo que se tomo el valor de desplazamiento por defecto en 2048 para el caso que la entrada fuera 0°, en caso que el valor en grados sea positivo el valor en bits disminuira haciendo que este gire en contra de las manesillas del reloj y transformadno el valor de grados a bits por medio de la expresion matemática (grados/180)*bits_offset, por otro lado al ingresar un valor en grados negativo el valor en bits aumentara causando que gire en la dirección contraria.
+```python             
+#Convierten los grados a bits
+def grados_a_bits(grados):
+    offset = 2048  # Este es el offset para que 0 grados sea 2048 en bits
+    if grados >= 0:
+        bits = offset - int((grados / 180) * offset)
+    else:
+        bits = offset + int((-grados / 180) * offset)
+    return bits
+```
+
+```python             
+#LLama al servicio de ROS
+def jointCommand(command, id_num, addr_name, value, time):  
+    rospy.wait_for_service('dynamixel_workbench/dynamixel_command')
+    try:        
+        dynamixel_command = rospy.ServiceProxy('/dynamixel_workbench/dynamixel_command', DynamixelCommand)
+        result = dynamixel_command(command,id_num,addr_name,value)
+        rospy.sleep(time)
+        return result.comm_result
+    except rospy.ServiceException as exc:
+        print(str(exc))
+```
 
 
-## DYNAMIXEL
 
 
-
-## [Código main EPSON](/Lab2/Main.prg)
-
-
-
-
+    
+El codigo para el cálculo de la matriz MTH se hizo por medio de
 ## Videos de pruebas de funcionamiento
 
-Simulación
+Simulación matlab
 
 https://github.com/jlvillalobosj/Robot_EPSON/assets/57506705/6cfeb508-4afe-40cf-9301-b48298c972de
 
-Prueba Real
+Prueba Real python
 
-https://github.com/jlvillalobosj/Robot_EPSON/assets/57506705/5ce8e1dd-460b-4427-b27b-d27af2a8e11b
+No nos entregaron el robot a tiempo para subir el video del sistema funcionando :'v
+
