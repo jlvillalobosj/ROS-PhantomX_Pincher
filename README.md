@@ -10,10 +10,7 @@ El presente repositorio tiene por objetivo dar a conocer el funcionamiento del b
 <p align="center">
   <img src="/Imagenes/PhantomXGeneral.PNG" style="width: 45%; height: auto;" /  />
 </p>
-
-## Solucion planteada
-
-## [Funciones de MATLAB](/Lab2/Main.prg)
+## Funciones de matlab
 Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada articulación de un robot afecta su posición y orientación. Al definir la configuración DH para cada articulación, establecemos parámetros como el ángulo de rotación y la longitud del enlace. Multiplicando las matrices DH a lo largo del robot, obtenemos la matriz de transformación homogénea, que nos da la posición y orientación del extremo del robot. 
 <p align="center">
   <img src="/Imagenes/DiagramaphantomX.PNG" style="width: 45%; height: auto;" /  />
