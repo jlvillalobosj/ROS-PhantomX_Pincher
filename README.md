@@ -10,7 +10,13 @@ El presente repositorio tiene por objetivo dar a conocer el funcionamiento del b
 <p align="center">
   <img src="/Imagenes/PhantomXGeneral.PNG" style="width: 45%; height: auto;" /  />
 </p>
+
+## Solución planteada
+
+Para el desarrollo del diseño de una interfaz para la manipulación de un robot dynamixel fué necesario inicialmente conocer las diferentes características del robot, por lo que por medio de la aplicación de dynamixel wizard se determino los id que se conformaban por los servomotores del brazo robótico, los limites de las articulaciones en bits y las direcciones de nombres para las acciones que pueden manipular al robot, se prosiguió con los comandos para crear un servicio desde un terminal y de esta fomra conocer los requerimientos que este necesiotaba para enviarlos y responderlos en su nodo maestro. Por parte de la interfaz se inició creando una pantalla de inicio desde visual studio en python con un boton que me permite iniciar el nodo maestro del proyecto de dynamixel y con ayuda de este pedir todos los requerimientos que necesitemos, en la ventana principal se diseñaron 5 botones que se encargaban de llamar a los servicios con los mismos requerimientos pero con diferentes valores que permitian variar la posición de los servomotores a unos deseados, para aumentar la interaccion con la aplicación y el robot se diseñaron 5 sliders y 5 sprints que permiten manipular a voluntad del usuario las posiciones que puede tomar el robot, y finalmente se agregaron la distancia y rotación en la que se encontraba el efector final respecto a la base con el fin de p´resentarle al usuario una descripción mas detallada del estado en el que se encotrara un objeto cuando era sujetado por el brazo robótico.
+
 ## Funciones de matlab
+
 Inicialmente botenemos la matriz de Denavit-Hartenberg (DH) describe cómo cada articulación de un robot afecta su posición y orientación. Al definir la configuración DH para cada articulación, establecemos parámetros como el ángulo de rotación y la longitud del enlace. Multiplicando las matrices DH a lo largo del robot, obtenemos la matriz de transformación homogénea, que nos da la posición y orientación del extremo del robot. 
 <p align="center">
   <img src="/Imagenes/DiagramaphantomX.PNG" style="width: 45%; height: auto;" /  />
@@ -90,8 +96,6 @@ Se creó una interfaz en MATLAB para simular diversas posiciones del sistema uti
 <p align="center">
   <img src="/Imagenes/InterfaceMatlab.PNG" style="width: 80%; height: auto;" /  />
 </p>
-
-## Diagrama de flujo
 
 ## Interfaz gráfica
 El diseño de la interface se dividio en dos partes, la primera se basa en una pequeña introducción a la aplicación en donde aparecen los nombres de los integrantes y un pequeño parrafo con la descripción de la aplicación. Al seleccionar el boton de "inicio", se evalua si el roslaunch esta en funcionamiento, con lo cual procede a cerrar la ventana actual y abrir la ventana principal donde se encuentran las diferentes acciones ue se pueden realizar para mover el robot.
