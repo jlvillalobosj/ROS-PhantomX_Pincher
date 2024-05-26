@@ -178,11 +178,47 @@ def jointCommand(command, id_num, addr_name, value, time):
         print(str(exc))
 ```
 
+Para el cálculo de la posición y orientación del efector final se hace uso del mismo método implementado en la simulación de matlab en la cual se calcula inicialmente la matriz de transformación homogenea de cada eslabón basados en los parámetros DH.
+<p align="center">
+  <img src="/Imagenes/mthMatrizDH.PNG" style="width: 70%; height: auto;" /  />
+</p>
+
+```python             
+# Matriz Denavit-Hartemberg para cada union
+def matriz_DH(theta, d, a, alpha):
+    alpha = math.radians(alpha)
+    th = math.radians(theta)
+    M1= [math.cos(th), -math.sin(th)*math.cos(alpha), math.sin(th)*math.sin(alpha), a*math.cos(th)]
+    for i in range(len(M1)):
+        M1[i] = round(M1[i],2)
+    M2=[math.sin(th), math.cos(th)*math.cos(alpha), -math.sin(alpha)*math.cos(th), math.sin(th)*a]
+    for i in range(len(M2)):
+        M2[i] = round(M2[i],2)
+    M3=[0, math.sin(alpha), math.cos(alpha), d]
+    for i in range(len(M3)):
+        M3[i] = round(M3[i],2)
+
+    return [M1,M2,M3, [0, 0, 0, 1]]
+```
+
+
+```python             
+# Matriz de transformación homogenea del TCP
+def mth_tcp(theta, d, a, alpha, offset):
+    tcp = np.eye(4)
+    for i in range(len(theta)):
+        tcp = np.dot(tcp,matriz_DH(theta[i]+offset[i],d[i], a[i], alpha[i]))
+
+    return tcp    
+```
 
 
 
-    
-El codigo para el cálculo de la matriz MTH se hizo por medio de
+
+
+
+
+
 ## Videos de pruebas de funcionamiento
 
 Simulación matlab
