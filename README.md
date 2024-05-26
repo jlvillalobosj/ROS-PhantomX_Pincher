@@ -121,6 +121,9 @@ Es importante aclarar que en caso de tener una entrada de texto que se encuentre
 Una vez se hayan terminado los diferentes cambios para el funcionamiento de la aplicaci[on se inserta el comando *catkin build dynamixel_one_motor* con el fin de reconstruir y compilar el proyecto para revisar el correcto funcionamiento de los cambios realizados. Seguidamente se  *source devel/setup.bash* dentro de la carpeta del workspace con el fin de permitir a ROS reconocer y utilizar correctamente los paquetes y recursos del workspace para finalmente correr el comando *roslaunch dynamixel_one_motor one_controller.launch* el cual nos permite poner en marcha los nodos del proyecto de dynamixel motor y sar los servicios de este.
 
 Mientras la aplicación se encuentra en ejecución, al seleccionar el botón de inicio el sistema busca el nodo master de la aplicación para dan permiso a los comandos para los tópicos, lo servicios y las acciones e inmediatemente destruye la ventana actual para dar paso al script de la interface de los movimientos del robot. En caso de no tener corriendo el proyecto de roslaunch la aplicación envia un mensaje de error por medio de una ventana modal.
+<p align="center">
+  <img src="/Imagenes/ErrorConexion.PNG" style="width: 45%; height: auto;" /  />
+</p>
 
 ```python             
     def boton_push_start(self):
@@ -161,7 +164,7 @@ def grados_a_bits(grados):
         bits = offset + int((-grados / 180) * offset)
     return bits
 ```
-
+Unavez ajustado los parámetros requeridos por el comando de dynamixel se procede a llamar la función jointCommand() la cual se utiliza para esperar a que el servicio llamado 'dynamixel_workbench/dynamixel_command' esté disponible antes de continuar ejecutando el código para que los demas procesos finalicen, una vez se tenga el espacio disponible se hace uso del comando de service por medio de la función rospy *rospy.ServiceProxy('/dynamixel_workbench/dynamixel_command', DynamixelCommand)*, esta me permite crear un servicio y guardarlo en la variable dynamixel_command para ingresarle de este modo los requerimientos tales como el id, la dirección de acciones de dynamixel (En este caso se usa solo *'Goal_Position'* ya que queremos ubicar los servomotores en una posición de bits específica) y su respectivo valor en bits, se guarda esta información en la variable result y la respuesta de esta función es un booleano indicndo si el servicio se realizó satisfactoriamente.
 ```python             
 #LLama al servicio de ROS
 def jointCommand(command, id_num, addr_name, value, time):  
