@@ -265,8 +265,3 @@ En el siguiente video se puede ver el funcionamiento de la interfáz gráfica cr
 
 https://github.com/jlvillalobosj/ROS-PhantomX_Pincher/assets/57506705/46163c2b-d1d2-443a-8d6c-82503bcfea16
 
-
-Prueba Real python
-
-No nos entregaron el robot a tiempo para subir el video del sistema funcionando :'v
-
