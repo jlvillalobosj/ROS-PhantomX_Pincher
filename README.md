@@ -261,7 +261,9 @@ Para los datos de la posición fué necesario tomar únicamente los valores de l
 
 Simulación matlab
 
-https://github.com/jlvillalobosj/Robot_EPSON/assets/57506705/6cfeb508-4afe-40cf-9301-b48298c972de
+
+https://github.com/jlvillalobosj/ROS-PhantomX_Pincher/assets/57506705/46163c2b-d1d2-443a-8d6c-82503bcfea16
+
 
 Prueba Real python
 
