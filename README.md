@@ -261,6 +261,7 @@ Para los datos de la posición fué necesario tomar únicamente los valores de l
 
 Simulación matlab
 
+En el siguiente video se puede ver el funcionamiento de la interfáz gráfica creada en donde el robot va a las diferentes posiciones preestablecidas y se pueden controlar sus articulaciones por medio de los sliders. Adicionalmente se puede también inspeccionar la posicion y la orientación del efector final.
 
 https://github.com/jlvillalobosj/ROS-PhantomX_Pincher/assets/57506705/46163c2b-d1d2-443a-8d6c-82503bcfea16
 
